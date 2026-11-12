@@ -2,7 +2,7 @@
 
 A full-stack web application for browsing and exploring a personal book collection.
 
-The project combines a **FastAPI backend**, a **React frontend**, and a **MariaDB database**. It is being developed as a practical project to learn and integrate backend and frontend technologies.
+Easy Library combines a **FastAPI backend**, a **React frontend**, and a **MariaDB database**. It is a personal project developed to practise full-stack web development and integrate Python, JavaScript and SQL technologies.
 
 ## Technologies
 
@@ -15,6 +15,7 @@ The project combines a **FastAPI backend**, a **React frontend**, and a **MariaD
 ### Frontend
 - React
 - JavaScript
+- React Router
 - HTML
 - CSS
 - Vite
@@ -23,10 +24,15 @@ The project combines a **FastAPI backend**, a **React frontend**, and a **MariaD
 
 - Retrieve books from a MariaDB database through a REST API.
 - Browse the book collection.
+- Display book covers.
+- Interactive 3D flip cards showing the book title and short summary on hover.
+- Navigate to individual book detail pages.
+- Display additional book information, including ISBN, publication date, summary, authors and genres.
 - Filter books by genre.
 - Navigate through books using pagination.
-- Retrieve available genres dynamically from the API.
-- Validate pagination parameters through FastAPI.
+- Retrieve genres dynamically from the API.
+- Display separate Genres and Authors pages.
+- Serve book cover images through FastAPI.
 
 ## Project Structure
 
@@ -34,6 +40,13 @@ The project combines a **FastAPI backend**, a **React frontend**, and a **MariaD
 FastAPI - React/
 │
 ├── backend/
+│   ├── assets/
+│   │   └── images/
+│   │       ├── 00000001.jpg
+│   │       ├── 00000002.jpg
+│   │       ├── ...
+│   │       └── logo.png
+│   │
 │   ├── .env.example
 │   ├── database.py
 │   ├── main.py
@@ -41,13 +54,28 @@ FastAPI - React/
 │
 ├── frontend/
 │   ├── public/
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   │
 │   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   └── Book.jsx
+│   │   ├── layouts/
+│   │   │   └── MainLayout.jsx
+│   │   ├── pages/
+│   │   │   ├── AuthorsPage.jsx
+│   │   │   ├── BookDetail.jsx
+│   │   │   ├── BooksPage.jsx
+│   │   │   └── GenresPage.jsx
 │   │   ├── App.jsx
 │   │   ├── App.css
-│   │   ├── Book.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
+│   │
+│   ├── index.html
 │   ├── package.json
+│   ├── package-lock.json
 │   └── vite.config.js
 │
 ├── books_v3.sql
@@ -62,6 +90,7 @@ FastAPI - React/
 - Python 3.13+
 - Node.js and npm
 - MariaDB
+- Git
 
 ### 1. Clone the repository
 
@@ -104,7 +133,7 @@ Navigate to the backend directory:
 cd backend
 ```
 
-Create your local environment file from the example:
+Create your local environment file:
 
 ```bash
 cp .env.example .env
@@ -120,7 +149,7 @@ DB_NAME=books_v3
 DB_PORT=3306
 ```
 
-**Important:** The `.env` file contains local credentials and should never be committed to Git.
+**Important:** The `.env` file contains local credentials and must never be committed to Git.
 
 ### 4. Start the backend
 
@@ -137,15 +166,15 @@ uvicorn main:app --reload
 
 The API will be available at:
 
-`http://127.0.0.1:8000`
+http://127.0.0.1:8000
 
 Interactive API documentation:
 
-`http://127.0.0.1:8000/docs`
+http://127.0.0.1:8000/docs
 
 ### 5. Start the frontend
 
-Open another terminal:
+Open another terminal and navigate to the frontend directory:
 
 ```bash
 cd frontend
@@ -156,18 +185,17 @@ npm run dev
 
 The application will be available at:
 
-`http://localhost:5173`
+http://localhost:5173
 
 ## Future Improvements
 
-- Display book authors and genres.
-- Add book cover images and descriptions.
-- Implement book search.
-- Add book details pages.
+- Implement the Genres and Authors pages.
+- Add book search functionality.
 - Implement book creation, editing and deletion.
 - Add user authentication.
-- Improve the responsive design.
+- Improve responsive design.
+- Expand the application with additional features.
 
 ## About
 
-Easy Library is an ongoing personal project focused on building a full-stack web application using Python, FastAPI, React and MariaDB.
+Easy Library is an ongoing personal project focused on learning and practising full-stack web development using Python, FastAPI, React and MariaDB.
