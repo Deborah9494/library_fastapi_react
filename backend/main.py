@@ -59,7 +59,7 @@ def get_books(
 
     try:
         cursor.execute("""
-            SELECT b.book_id, b.book_name
+            SELECT b.book_id, b.book_name, b.cover_image, b.shortsummary
             FROM books b
             WHERE (
                 %s IS NULL
