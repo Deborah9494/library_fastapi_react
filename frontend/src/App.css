@@ -162,7 +162,7 @@
   padding: 35px 20px;
 }
 
-.books-section {
+.books-section, .grid-section {
   width: 100%;
 }
 
@@ -208,10 +208,10 @@
 
 
 /* =========================
-   BOOKS
+   GRID
 ========================= */
 
-.book-grid {
+.book-grid, .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
@@ -219,26 +219,36 @@
 }
 
 @media (max-width: 1000px) {
-  .book-grid {
+  .book-grid, .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 650px) {
-  .book-grid {
+  .book-grid, .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* =========================
-   BOOKS CARD
+  CARD
 ========================= */
 
 .book-link {
+  perspective: 1000px;
+}
+
+
+.book-link, .grid-link {
   display: block;
   text-decoration: none;
   color: inherit;
-  perspective: 1000px;
+}
+
+.card {
+  height: 120px;
+  width: 100%;
+  cursor: pointer;
 }
 
 .book-card {
@@ -247,7 +257,31 @@
   cursor: pointer;
 }
 
-.book-card-inner {
+.card {
+  display: flex;
+  border: 2px solid transparent;
+  background: #f1f1f1;
+  color: var(--color-primary);
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.grid-link:hover .card {
+  transform: scale(1.04);
+  border-color: var(--color-primary);
+}
+
+.book-card-inner{
   position: relative;
   width: 100%;
   height: 100%;
@@ -309,8 +343,6 @@
   line-height: 1.6;
   margin: 0;
 }
-
-
 
 /* BOOK DETAIL PAGE */
 
@@ -480,3 +512,4 @@
     flex-direction: column;
   }
 }
+
