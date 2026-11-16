@@ -189,12 +189,10 @@ http://localhost:5173
 
 ## Future Improvements
 
-- Implement the Genres and Authors pages.
+- Implement the Genres and Authors DETAIL pages.
 - Add book search functionality.
 - Implement book creation, editing and deletion.
 - Add user authentication.
-- Improve responsive design.
-- Expand the application with additional features.
 
 ## About
 

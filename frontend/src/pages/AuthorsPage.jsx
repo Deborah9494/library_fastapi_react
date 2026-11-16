@@ -1,7 +1,29 @@
+import { useState, useEffect } from 'react'
+import Author from '../components/Author'
+
 function AuthorsPage() {
+
+  const [authors, setAuthors] = useState([])
+
+  // Retrieve genres when the component loads
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/authors')
+      .then(response => response.json())
+      .then(data => setAuthors(data.authors))
+      .catch(error => console.error('Error fetching authors:', error))
+  }, [])
+
   return (
     <main className="main-content">
-      <h1 className="page-title">Authors</h1>
+      <section className="grid-section">
+        <h1 className="page-title">Authors</h1>
+        {/* AUTHORS GRID */}
+        <div className="grid">
+          {authors.map((author) => (
+            <Author key={author.author_id} author={author} />
+          ))}
+        </div>
+      </section>     
     </main>
   )
 }

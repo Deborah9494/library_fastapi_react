@@ -87,13 +87,18 @@ function BookDetail() {
           ))}
 
           <h2>Genres</h2>
-          <div>
+
+          <div className="genre-list">
             {book.genres.map((genre) => (
-                <span className="genre-badge" key={genre.genre_id}>
+              <Link
+                to={`/genres/${genre.genre_id}`}
+                className="genre-badge"
+                key={genre.genre_id}
+              >
                 {genre.genre_name}
-                </span>
+              </Link>
             ))}
-            </div>
+          </div>
 
         </div>
       </div>

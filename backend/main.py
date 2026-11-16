@@ -190,3 +190,70 @@ def get_genres():
     finally:
         cursor.close()
         connection.close()
+
+@app.get("/genres/{genre_id}")
+def get_genre(genre_id: int):
+    connection = get_connection()
+
+    try:
+        with connection.cursor() as cursor:
+
+            # 1. Retrieve the genre information
+            cursor.execute("""
+                SELECT genre_id, genre_name
+                FROM genres
+                WHERE genre_id = %s
+            """, (genre_id,))
+
+            genre = cursor.fetchone()
+
+            # Check whether the genre exists
+            if genre is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Genre not found"
+                )
+
+            # 2. Retrieve all books belonging to this genre
+            cursor.execute("""
+                SELECT
+                    b.book_id,
+                    b.book_name,
+                    b.cover_image,
+                    b.shortsummary
+                FROM books b
+                INNER JOIN books_genres bg
+                    ON b.book_id = bg.book_id
+                WHERE bg.genre_id = %s
+                ORDER BY b.book_name ASC
+            """, (genre_id,))
+
+            genre["books"] = cursor.fetchall()
+
+            return genre
+
+    finally:
+        connection.close()
+
+
+@app.get("/authors")
+def get_authors():
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT a.author_id, a.full_name, a.ISO3, a.summary
+            FROM authors a
+            ORDER BY a.full_name ASC
+        """)
+
+        authors = cursor.fetchall()
+
+        return {
+            "authors": authors
+        }
+
+    finally:
+        cursor.close()
+        connection.close()
