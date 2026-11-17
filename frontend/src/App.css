@@ -659,6 +659,23 @@
   font-size: 15px;
 }
 
+.author-series {
+  margin-top: 35px;
+}
+
+.author-series > h3 {
+  margin-bottom: 12px;
+  font-size: 21px;
+  color: #34495e;
+}
+
+.author-series > p {
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 @media (max-width: 600px) {
   .genre-detail-header,
   .author-detail-header {

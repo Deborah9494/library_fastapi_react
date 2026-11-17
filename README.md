@@ -22,65 +22,41 @@ Easy Library combines a **FastAPI backend**, a **React frontend**, and a **Maria
 
 ## Current Features
 
-- Retrieve books from a MariaDB database through a REST API.
+- Retrieve books, authors and genres from a MariaDB database through a REST API.
 - Browse the book collection.
-- Display book covers.
-- Interactive 3D flip cards showing the book title and short summary on hover.
+- Display book covers served by FastAPI.
+- Interactive 3D flip cards showing book titles and short summaries on hover.
 - Navigate to individual book detail pages.
-- Display additional book information, including ISBN, publication date, summary, authors and genres.
+- Display detailed book information, including ISBN, publication date, summary, authors and genres.
 - Filter books by genre.
 - Navigate through books using pagination.
-- Retrieve genres dynamically from the API.
-- Display separate Genres and Authors pages.
-- Serve book cover images through FastAPI.
+- Display genres dynamically from the API.
+- Browse a dedicated Genres page and view individual genre details with their associated books.
+- Browse a dedicated Authors page and view individual author details.
+- Organise an author's books into series and standalone books.
+- Display books within each series in their correct reading order.
+- Navigate between related books, authors and genres.
+
 
 ## Project Structure
 
 ```text
-FastAPI - React/
-│
-├── backend/
-│   ├── assets/
-│   │   └── images/
-│   │       ├── 00000001.jpg
-│   │       ├── 00000002.jpg
-│   │       ├── ...
-│   │       └── logo.png
-│   │
-│   ├── .env.example
-│   ├── database.py
-│   ├── main.py
-│   └── requirements.txt
-│
-├── frontend/
-│   ├── public/
-│   │   ├── favicon.svg
-│   │   └── icons.svg
-│   │
 │   ├── src/
 │   │   ├── assets/
 │   │   ├── components/
-│   │   │   └── Book.jsx
+│   │   │   ├── Author.jsx
+│   │   │   ├── Book.jsx
+│   │   │   └── Genre.jsx
 │   │   ├── layouts/
 │   │   │   └── MainLayout.jsx
 │   │   ├── pages/
+│   │   │   ├── AuthorDetail.jsx
 │   │   │   ├── AuthorsPage.jsx
 │   │   │   ├── BookDetail.jsx
 │   │   │   ├── BooksPage.jsx
+│   │   │   ├── GenreDetail.jsx
 │   │   │   └── GenresPage.jsx
-│   │   ├── App.jsx
-│   │   ├── App.css
-│   │   ├── index.css
-│   │   └── main.jsx
-│   │
-│   ├── index.html
-│   ├── package.json
-│   ├── package-lock.json
-│   └── vite.config.js
-│
-├── books_v3.sql
-├── .gitignore
-└── README.md
+
 ```
 
 ## Getting Started
@@ -189,10 +165,10 @@ http://localhost:5173
 
 ## Future Improvements
 
-- Implement the Genres and Authors DETAIL pages.
 - Add book search functionality.
 - Implement book creation, editing and deletion.
-- Add user authentication.
+- Add user authentication and personal user libraries.
+- Improve responsive design and accessibility.
 
 ## About
 
