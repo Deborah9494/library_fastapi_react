@@ -165,6 +165,7 @@ http://localhost:5173
 
 ## Future Improvements
 
+- Customise the number of books displayed per page.
 - Add book search functionality.
 - Implement book creation, editing and deletion.
 - Add user authentication and personal user libraries.
