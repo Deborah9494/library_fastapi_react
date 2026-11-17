@@ -81,9 +81,13 @@ function BookDetail() {
 
           <h2>Authors</h2>
           {book.authors.map((author) => (
-            <p key={author.author_id}>
-              {author.full_name}
-            </p>
+            <Link
+                to={`/authors/${author.author_id}`}
+                className="author-link"
+                key={author.author_id}
+              >
+                {author.full_name}
+              </Link>
           ))}
 
           <h2>Genres</h2>

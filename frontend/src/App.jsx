@@ -6,6 +6,8 @@ import BookDetail from './pages/BookDetail'
 import GenresPage from './pages/GenresPage'
 import GenreDetail from './pages/GenreDetail'
 import AuthorsPage from './pages/AuthorsPage'
+import AuthorDetail from './pages/AuthorDetail'
+
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/genres" element={<GenresPage />} />
         <Route path="/genres/:genreId" element={<GenreDetail />} />
         <Route path="/authors" element={<AuthorsPage />} />
+        <Route path="/authors/:authorId" element={<AuthorDetail />} />
 
       </Route>
     </Routes>

@@ -257,3 +257,47 @@ def get_authors():
     finally:
         cursor.close()
         connection.close()
+
+@app.get("/authors/{author_id}")
+def get_author(author_id: int):
+    connection = get_connection()
+
+    try:
+        with connection.cursor() as cursor:
+
+            # 1. Retrieve the author information
+            cursor.execute("""
+                SELECT a.author_id, a.full_name, a.ISO3, a.summary
+                FROM authors a
+                WHERE author_id = %s
+            """, (author_id,))
+
+            author = cursor.fetchone()
+
+            # Check whether the author exists
+            if author is None:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Author not found"
+                )
+
+            # 2. Retrieve all books belonging to this author
+            cursor.execute("""
+                SELECT
+                    b.book_id,
+                    b.book_name,
+                    b.cover_image,
+                    b.shortsummary
+                FROM books b
+                INNER JOIN books_authors ba
+                    ON b.book_id = ba.book_id
+                WHERE ba.author_id = %s
+                ORDER BY b.book_name ASC
+            """, (author_id,))
+
+            author["books"] = cursor.fetchall()
+
+            return author
+
+    finally:
+        connection.close()

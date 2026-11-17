@@ -417,15 +417,18 @@
   padding: 0 24px;
 }
 
-.back-link {
+.back-link, .author-link {
   display: inline-block;
-  margin-bottom: 30px;
   color: #2878b8;
   text-decoration: none;
-  font-weight: 600;
 }
 
-.back-link:hover {
+.back-link {
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.back-link:hover, .author-link:hover {
   text-decoration: underline;
 }
 
@@ -586,16 +589,16 @@
 }
 
 /* =========================
-   GENRE DETAIL PAGE
+   AUTHOR AND GENRE DETAIL PAGE
 ========================= */
 
-.genre-detail {
+.genre-detail, .author-detail {
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 24px;
 }
 
-.genre-detail-header {
+.genre-detail-header, .author-detail-header {
   position: relative;
   padding: 45px 40px;
   margin-top: 30px;
@@ -605,7 +608,7 @@
   overflow: hidden;
 }
 
-.genre-label {
+.genre-label, .author-label {
   display: inline-block;
   margin-bottom: 15px;
   font-size: 12px;
@@ -614,20 +617,22 @@
   color: #c5e4fa;
 }
 
-.genre-detail-header h1 {
+.genre-detail-header h1, .author-detail-header h1 {
   margin: 0 0 15px;
   font-size: 36px;
   font-weight: 700;
 }
 
-.genre-detail-header p {
+.genre-detail-header p,
+.author-detail-header p {
   margin: 0 0 25px;
   font-size: 16px;
   line-height: 1.6;
   color: #e4f2fc;
 }
 
-.genre-book-count {
+.genre-book-count,
+.author-book-count {
   display: inline-block;
   padding: 7px 15px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -636,11 +641,13 @@
   font-weight: 600;
 }
 
-.genre-books-section {
+.genre-books-section,
+.author-books-section {
   margin-top: 45px;
 }
 
-.genre-books-section h2 {
+.genre-books-section h2,
+.author-books-section h2 {
   margin-bottom: 10px;
   font-size: 24px;
   color: #263746;
@@ -653,19 +660,23 @@
 }
 
 @media (max-width: 600px) {
-  .genre-detail-header {
+  .genre-detail-header,
+  .author-detail-header {
     padding: 30px 24px;
   }
 
-  .genre-detail-header h1 {
+  .genre-detail-header h1,
+  .author-detail-header h1 {
     font-size: 28px;
   }
 
-  .genre-detail-header p {
+  .genre-detail-header p,
+  .author-detail-header p {
     font-size: 14px;
   }
 
-  .genre-books-section h2 {
+  .genre-books-section h2,
+  .author-books-section h2 {
     font-size: 21px;
   }
 }
