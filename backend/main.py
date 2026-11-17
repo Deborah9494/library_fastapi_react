@@ -401,3 +401,52 @@ def get_author(author_id: int):
 
     finally:
         connection.close()
+
+@app.get("/search")
+def search_books(q: str = Query(..., min_length=2, max_length=100)):
+    connection = get_connection()
+
+    try:
+        with connection.cursor() as cursor:
+
+            search_term = f"%{q}%"
+
+            cursor.execute("""
+                SELECT
+                    b.book_id,
+                    b.book_name,
+                    b.cover_image,
+                    GROUP_CONCAT(
+                        DISTINCT a.full_name
+                        ORDER BY a.full_name
+                        SEPARATOR ', '
+                    ) AS authors
+                FROM books b
+                LEFT JOIN books_authors ba
+                    ON b.book_id = ba.book_id
+                LEFT JOIN authors a
+                    ON ba.author_id = a.author_id
+                WHERE
+                    b.book_name LIKE %s
+                    OR EXISTS (
+                        SELECT 1
+                        FROM books_authors ba2
+                        INNER JOIN authors a2
+                            ON ba2.author_id = a2.author_id
+                        WHERE
+                            ba2.book_id = b.book_id
+                            AND a2.full_name LIKE %s
+                    )
+                GROUP BY
+                    b.book_id,
+                    b.book_name,
+                    b.cover_image
+                ORDER BY b.book_name ASC
+            """, (search_term, search_term))
+
+            results = cursor.fetchall()
+
+            return {"results": results}
+
+    finally:
+        connection.close()

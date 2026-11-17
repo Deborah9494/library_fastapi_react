@@ -1,4 +1,5 @@
 import { Outlet, Link, NavLink } from 'react-router-dom'
+import BookSearch from '../components/BookSearch'
 import '../App.css'
 
 function MainLayout() {
@@ -14,16 +15,7 @@ function MainLayout() {
             <span className="logo-library">Library</span>
           </Link>
 
-          <div className="search-bar">
-            <input
-              type="search"
-              placeholder="Search books, authors..."
-              aria-label="Search books and authors"
-            />
-            <button type="button" className="search-button" aria-label="Search">
-              &#128269;
-            </button>
-          </div>
+          <BookSearch />
 
           <div className="account-buttons">
             <button type="button" className="sign-in-button">
