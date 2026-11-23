@@ -7,7 +7,8 @@ import GenresPage from './pages/GenresPage'
 import GenreDetail from './pages/GenreDetail'
 import AuthorsPage from './pages/AuthorsPage'
 import AuthorDetail from './pages/AuthorDetail'
-
+import AddBook from './pages/AddBook'
+import ImportBook from './pages/ImportBook'
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
         <Route path="/genres/:genreId" element={<GenreDetail />} />
         <Route path="/authors" element={<AuthorsPage />} />
         <Route path="/authors/:authorId" element={<AuthorDetail />} />
-
+        <Route path="/books/new" element={<AddBook />} />
+        <Route path="/books/import" element={<ImportBook />} />
+        <Route path="/books/:bookId/edit" element={<AddBook />} />
       </Route>
     </Routes>
   )

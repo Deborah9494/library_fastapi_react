@@ -165,9 +165,12 @@ http://localhost:5173
 
 ## Future Improvements
 
+## Future Improvements
+
 - Customise the number of books displayed per page.
-- Implement book creation, editing and deletion.
-- Add user authentication and personal user libraries.
+- **Book management (CRUD):** implement book creation, editing and deletion, including the management of relationships with authors, genres and series.
+- **Book import:** integrate an external book catalogue API to search for books and automatically import their metadata, including titles, descriptions, cover images, authors, genres and series information.
+- **User authentication and personal libraries:** allow users to create accounts, manage their own book collections and save their favourite books.
 - Improve responsive design and accessibility.
 
 ## About

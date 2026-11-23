@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Book from '../components/Book'
 
 function BooksPage() {
@@ -46,7 +47,19 @@ function BooksPage() {
 
         <section className="books-section">
 
-          <h1 className="page-title">Books</h1>
+          <div className="books-header">
+            <h1 className="page-title">Books</h1>
+
+            <div className="book-actions">
+              <Link to="/books/new" className="btn btn-primary">
+                + Add a Book
+              </Link>
+
+              <Link to="/books/import" className="btn btn-secondary">
+                Import a Book
+              </Link>
+            </div>
+          </div>
 
           {/* FILTERS */}
           <div className="filter-section">
