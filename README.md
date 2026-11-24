@@ -165,8 +165,6 @@ http://localhost:5173
 
 ## Future Improvements
 
-## Future Improvements
-
 - Allow users to customise the number of books displayed per page.
 - Improve the presentation and readability of author biographies on author detail pages.
 - Implement full CRUD functionality for book series (create, read, update and delete).
