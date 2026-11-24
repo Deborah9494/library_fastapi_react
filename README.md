@@ -167,13 +167,15 @@ http://localhost:5173
 
 ## Future Improvements
 
-- Customise the number of books displayed per page.
-- Improve design of summary in author detail page.
-- Serie management (CRUD)
-- **Book import:** integrate an external book catalogue API to search for books and automatically import their metadata, including titles, descriptions, cover images, authors, genres and series information.
-- **User authentication and personal libraries:** allow users to create accounts, manage their own book collections and save their favourite books.
-- Manage users permissions
-- Improve responsive design and accessibility.
+- Allow users to customise the number of books displayed per page.
+- Improve the presentation and readability of author biographies on author detail pages.
+- Implement full CRUD functionality for book series (create, read, update and delete).
+- Improve responsive design and accessibility across the application.
+- Book import: Integrate an external book catalogue API to search for books and automatically import their metadata, including titles, ISBNs, publication dates, descriptions, cover images, authors, genres and series information.
+- Media management: Replace the individual file fields in the books table with a dedicated media management system. Allow users to upload, view, download and delete multiple files associated with each book, including cover images, documents and EPUB files.
+- User authentication: Implement user registration, login and logout, with secure password storage and session management.
+- Personal libraries: Allow registered users to create and manage their own book collections, save favourite books and organise their reading lists.
+- User permissions and roles: Implement role-based access control (RBAC) to distinguish between administrators and regular users, defining which operations each role can perform.
 
 ## About
 
