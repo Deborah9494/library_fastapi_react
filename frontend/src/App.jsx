@@ -9,6 +9,7 @@ import AuthorsPage from './pages/AuthorsPage'
 import AuthorDetail from './pages/AuthorDetail'
 import AddBook from './pages/AddBook'
 import ImportBook from './pages/ImportBook'
+import AuthorForm from './pages/AuthorForm'
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         <Route path="/books/new" element={<AddBook />} />
         <Route path="/books/import" element={<ImportBook />} />
         <Route path="/books/:bookId/edit" element={<AddBook />} />
+        
+        <Route path="/authors/new" element={<AuthorForm />} />
+        <Route path="/authors/:authorId/edit" element={<AuthorForm />} />
       </Route>
     </Routes>
   )

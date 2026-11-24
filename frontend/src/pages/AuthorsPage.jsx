@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Author from '../components/Author'
 
 function AuthorsPage() {
@@ -16,7 +17,18 @@ function AuthorsPage() {
   return (
     <main className="main-content">
       <section className="grid-section">
-        <h1 className="page-title">Authors</h1>
+        
+        <div className="authors-header">
+          <h1 className="page-title">Authors</h1>
+
+          <div className="authors-actions">
+            <Link to="/authors/new" className="btn btn-primary">
+              + Add an Author
+            </Link>
+          </div>
+        </div>
+        
+
         {/* AUTHORS GRID */}
         <div className="grid">
           {authors.map((author) => (

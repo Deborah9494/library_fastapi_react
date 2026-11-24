@@ -173,7 +173,7 @@ function AddBook() {
   }, [genres, genreSearch])
 
   // Submit the book and upload its optional files
-    async function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
     setSubmitError('')
@@ -181,112 +181,131 @@ function AddBook() {
     setIsSubmitting(true)
 
     try {
-        // Check file sizes before sending anything
-        if (coverFile && coverFile.size > 5 * 1024 * 1024) {
+      // STEP 1: Check file sizes
+      if (coverFile && coverFile.size > 5 * 1024 * 1024) {
         throw new Error('The cover image must not exceed 5 MB.')
-        }
+      }
 
-        if (epubFile && epubFile.size > 50 * 1024 * 1024) {
+      if (epubFile && epubFile.size > 50 * 1024 * 1024) {
         throw new Error('The EPUB file must not exceed 50 MB.')
-        }
+      }
 
-        let bookId = createdBookId
+      // STEP 2: Prepare the book data
+      const bookData = {
+        ...formData,
+        author_ids: selectedAuthors,
+        genre_ids: selectedGenres,
+        series_id: formData.series_id
+          ? Number(formData.series_id)
+          : null,
+        series_order: formData.series_order
+          ? Number(formData.series_order)
+          : null
+      }
 
-        // STEP 1: Create the book if it hasn't already been created
-        if (!bookId) {
-        const bookData = {
-            ...formData,
-            author_ids: selectedAuthors,
-            genre_ids: selectedGenres
-        }
+      let targetBookId = isEditMode ? Number(bookId) : createdBookId
 
-        const response = await fetch('http://127.0.0.1:8000/books', {
-            method: 'POST',
+      // STEP 3: Create or update the book
+      if (isEditMode || !targetBookId) {
+        const response = await fetch(
+          isEditMode
+            ? `http://127.0.0.1:8000/books/${bookId}`
+            : 'http://127.0.0.1:8000/books',
+          {
+            method: isEditMode ? 'PUT' : 'POST',
             headers: {
-            'Content-Type': 'application/json'
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify(bookData)
-        })
+          }
+        )
 
         if (!response.ok) {
-            const data = await response.json()
-            throw new Error(data.detail || 'Unable to create the book.')
+          const data = await response.json()
+          throw new Error(
+            data.detail || `Unable to ${isEditMode ? 'update' : 'create'} the book.`
+          )
         }
 
         const data = await response.json()
 
-        bookId = data.book_id
-        setCreatedBookId(bookId)
-
-        setSuccessMessage(`Book created successfully! ID: ${bookId}`)
+        if (!isEditMode) {
+          targetBookId = data.book_id
+          setCreatedBookId(targetBookId)
         }
+      }
 
-        // Collect any upload errors
-        const uploadErrors = []
+      // STEP 4: Upload selected files
+      const uploadErrors = []
 
-        // STEP 2: Upload the cover image, if selected
-        if (coverFile) {
+      // Upload the cover image, if selected
+      if (coverFile) {
         const coverData = new FormData()
         coverData.append('file', coverFile)
 
         try {
-            const response = await fetch(
-            `http://127.0.0.1:8000/books/${bookId}/cover`,
+          const response = await fetch(
+            `http://127.0.0.1:8000/books/${targetBookId}/cover`,
             {
-                method: 'POST',
-                body: coverData
+              method: 'POST',
+              body: coverData
             }
-            )
+          )
 
-            if (!response.ok) {
+          if (!response.ok) {
             const data = await response.json()
             throw new Error(data.detail || 'Cover upload failed.')
-            }
+          }
         } catch (error) {
-            uploadErrors.push(`Cover image: ${error.message}`)
+          uploadErrors.push(`Cover image: ${error.message}`)
         }
-        }
+      }
 
-        // STEP 3: Upload the EPUB file, if selected
-        if (epubFile) {
+      // Upload the EPUB file, if selected
+      if (epubFile) {
         const epubData = new FormData()
         epubData.append('file', epubFile)
 
         try {
-            const response = await fetch(
-            `http://127.0.0.1:8000/books/${bookId}/epub`,
+          const response = await fetch(
+            `http://127.0.0.1:8000/books/${targetBookId}/epub`,
             {
-                method: 'POST',
-                body: epubData
+              method: 'POST',
+              body: epubData
             }
-            )
+          )
 
-            if (!response.ok) {
+          if (!response.ok) {
             const data = await response.json()
             throw new Error(data.detail || 'EPUB upload failed.')
-            }
+          }
         } catch (error) {
-            uploadErrors.push(`EPUB file: ${error.message}`)
+          uploadErrors.push(`EPUB file: ${error.message}`)
         }
-        }
+      }
 
-        // STEP 4: Report the result
-        if (uploadErrors.length > 0) {
+      // STEP 5: Report the result
+      if (uploadErrors.length > 0) {
         setSubmitError(
-            `The book was created, but some files could not be uploaded: ${uploadErrors.join(' ')} You can try submitting again to retry the uploads.`
+          `The book was ${isEditMode ? 'updated' : 'created'}, but some files could not be uploaded: ${uploadErrors.join(' ')} You can try submitting again to retry the uploads.`
         )
-        } else {
+      } else {
         setSubmissionComplete(true)
-        setSuccessMessage(`Book created successfully! ID: ${bookId}`)
-        }
+
+        setSuccessMessage(
+          isEditMode
+            ? 'Book updated successfully!'
+            : `Book created successfully! ID: ${targetBookId}`
+        )
+      }
 
     } catch (error) {
-        setSubmitError(error.message)
+      setSubmitError(error.message)
 
     } finally {
-        setIsSubmitting(false)
+      setIsSubmitting(false)
     }
-    }
+  }
 
   // Update book information fields
   function handleChange(event) {
@@ -558,19 +577,21 @@ function AddBook() {
             disabled={isSubmitting}
             >
             {isSubmitting
-                ? 'Submitting...'
+              ? 'Saving...'
+              : isEditMode
+                ? 'Update Book'
                 : createdBookId
-                ? 'Retry file uploads'
-                : 'Create Book'}
+                  ? 'Retry file uploads'
+                  : 'Create Book'}
             </button>
         )}
 
         {submissionComplete && (
             <Link
-            to={`/books/${createdBookId}`}
-            className="btn btn-primary"
+              to={`/books/${isEditMode ? bookId : createdBookId}`}
+              className="btn btn-primary"
             >
-            View Book
+              View Book
             </Link>
         )}
 

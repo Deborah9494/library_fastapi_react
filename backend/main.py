@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from routers import books, genres, authors, series
+from routers import books, genres, authors, series, countries
 from database import get_connection
 
 app = FastAPI()
@@ -27,6 +27,7 @@ app.include_router(books.router)
 app.include_router(genres.router)
 app.include_router(authors.router)
 app.include_router(series.router)
+app.include_router(countries.router)
 
 @app.get("/")
 def home():

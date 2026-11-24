@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import Book from '../components/Book'
 
 function AuthorDetail() {
   const { authorId } = useParams()
+  const navigate = useNavigate();
+
 
   const [author, setAuthor] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     async function fetchAuthor() {
@@ -35,7 +38,41 @@ function AuthorDetail() {
     }
 
     fetchAuthor()
-  }, [authorId])
+  }, [authorId]);
+
+
+    async function handleDelete() {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${author.full_name}"? This action cannot be undone.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setDeleting(true);
+      setError("");
+
+      const response = await fetch(
+        `http://127.0.0.1:8000/authors/${authorId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || "Could not delete author");
+      }
+
+      navigate("/authors");
+
+    } catch (error) {
+      setError(error.message);
+      setDeleting(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -72,6 +109,8 @@ function AuthorDetail() {
         <span className="author-label">AUTHOR</span>
 
         <h1>{author.full_name}</h1>
+
+        <p>{author.summary}</p>
 
         <p>Explore the books for this author.</p>
 
@@ -124,6 +163,24 @@ function AuthorDetail() {
           No books are currently available for this author.
         </p>
       )}
+
+      <div className="form-actions">
+        <Link
+          to={`/authors/${authorId}/edit`}
+          className="btn btn-primary"
+        >
+          Edit Author
+        </Link>
+
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          {deleting ? "Deleting..." : "Delete Author"}
+        </button>
+      </div>
 
     </main>
   )
