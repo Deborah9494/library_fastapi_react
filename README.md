@@ -167,6 +167,7 @@ http://localhost:5173
 
 - Allow users to customise the number of books displayed per page.
 - Improve the presentation and readability of author biographies on author detail pages.
+- Implement full CRUD functionality for genres (create, update and delete).
 - Implement full CRUD functionality for book series (create, read, update and delete).
 - Improve responsive design and accessibility across the application.
 - Book import: Integrate an external book catalogue API to search for books and automatically import their metadata, including titles, ISBNs, publication dates, descriptions, cover images, authors, genres and series information.
