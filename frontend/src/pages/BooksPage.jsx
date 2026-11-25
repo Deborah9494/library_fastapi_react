@@ -10,7 +10,7 @@ function BooksPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalBooks, setTotalBooks] = useState(0)
 
-  const booksPerPage = 5
+  const [booksPerPage, setBooksPerPage] = useState(5)
   const totalPages = Math.ceil(totalBooks / booksPerPage)
 
   // Retrieve genres when the component loads
@@ -40,7 +40,36 @@ function BooksPage() {
         setTotalBooks(data.total)
       })
       .catch(error => console.error('Error fetching books:', error))
-  }, [selectedGenre, currentPage])
+  }, [selectedGenre, currentPage, booksPerPage])
+
+  function getPageNumbers() {
+    const pages = []
+    if (totalPages <= 7) {
+      // Show all pages when there are 7 or fewer
+      for (let page = 1; page <= totalPages; page++) {
+        pages.push(page)
+      }
+    } else {
+      // Always show the first page
+      pages.push(1)
+
+      if (currentPage > 3) {
+        pages.push('...')
+      }
+      // Show the current page and its neighbours
+      const start = Math.max(2, currentPage - 1)
+      const end = Math.min(totalPages - 1, currentPage + 1)
+      for (let page = start; page <= end; page++) {
+        pages.push(page)
+      }
+      if (currentPage < totalPages - 2) {
+        pages.push('...')
+      }
+      // Always show the last page
+      pages.push(totalPages)
+    }
+    return pages
+  }
 
   return (
       <main className="main-content">
@@ -63,24 +92,44 @@ function BooksPage() {
 
           {/* FILTERS */}
           <div className="filter-section">
-            <label htmlFor="genre">Filter by genre:</label>
+            <div className="filter-group">
+              <label htmlFor="genre">Filter by genre:</label>
 
-            <select
-              id="genre"
-              value={selectedGenre}
-              onChange={(event) => {
-                setSelectedGenre(event.target.value)
-                setCurrentPage(1)
-              }}
-            >
-              <option value="">All genres</option>
+              <select
+                id="genre"
+                value={selectedGenre}
+                onChange={(event) => {
+                  setSelectedGenre(event.target.value)
+                  setCurrentPage(1)
+                }}
+              >
+                <option value="">All genres</option>
 
-              {genres.map((genre) => (
-                <option key={genre.genre_id} value={genre.genre_name}>
-                  {genre.genre_name}
-                </option>
-              ))}
-            </select>
+                {genres.map((genre) => (
+                  <option key={genre.genre_id} value={genre.genre_name}>
+                    {genre.genre_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filter-group">
+              <label htmlFor="booksPerPage">Books per page:</label>
+
+              <select
+                id="booksPerPage"
+                value={booksPerPage}
+                onChange={(event) => {
+                  setBooksPerPage(Number(event.target.value))
+                  setCurrentPage(1)
+                }}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={25}>25</option>
+              </select>
+            </div>
           </div>
 
           {/* BOOK GRID */}
@@ -92,27 +141,49 @@ function BooksPage() {
 
           {/* PAGINATION */}
           <div className="pagination-container">
-
+            <button
+              className="btn"
+              onClick={() => setCurrentPage(1)}
+              disabled={currentPage === 1}
+            >
+              «
+            </button>
             <button
               className="btn"
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              Previous
+              ‹
             </button>
-
-            <span className="pagination-info">
-              Page {currentPage} of {Math.max(1, totalPages)}
-            </span>
-
+            {getPageNumbers().map((page, index) => (
+              page === '...' ? (
+                <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={page}
+                  className={`btn ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </button>
+              )
+            ))}
             <button
               className="btn"
               onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage >= totalPages}
+              disabled={currentPage === totalPages || totalPages === 0}
             >
-              Next
+              ›
             </button>
-
+            <button
+              className="btn"
+              onClick={() => setCurrentPage(totalPages)}
+              disabled={currentPage === totalPages || totalPages === 0}
+            >
+              »
+            </button>
           </div>
 
         </section>
